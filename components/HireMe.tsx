@@ -48,7 +48,7 @@ const HireMe: React.FC<HireMeProps> = ({ onNavigate }) => {
            </div>
            <div>
                <span className="block text-zinc-400 mb-1">Availability</span>
-               Immediate
+               1 Month
            </div>
            <div>
                <span className="block text-zinc-400 mb-1">Location</span>
