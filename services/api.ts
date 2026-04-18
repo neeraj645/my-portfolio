@@ -1,6 +1,6 @@
 import { ApiResponse, ContactApi, ExperienceApi, HireMeApi, HomepageApi, ProjectApi, TechStackApi } from '../types';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://my-portfolio-backend-8jly.onrender.com/api';
 
 const fetchData = async <T>(path: string): Promise<T> => {
   const response = await fetch(`${API_BASE_URL}${path}`);
