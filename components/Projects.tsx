@@ -1,16 +1,65 @@
-
-import React, { useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { PROJECTS } from '../constants';
-import { ProjectCategory } from '../types';
+import { fetchProjects } from '../services/api';
+import { Project } from '../types';
 
 const Projects: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<ProjectCategory | 'All'>('All');
-  
-  const categories: (ProjectCategory | 'All')[] = ['All', 'Company', 'Freelance', 'Personal'];
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [error, setError] = useState<string>('');
 
-  const filteredProjects = activeCategory === 'All' 
-    ? PROJECTS 
-    : PROJECTS.filter(p => p.category === activeCategory);
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchProjects();
+        setProjects(
+          data.map((project) => ({
+            title: project.title,
+            description: project.details.join(' • '),
+            tech: project.tackStack,
+            link: project.link,
+            type: project.type,
+            category: project.owner,
+          }))
+        );
+      } catch (err) {
+        console.error('Projects API error:', err);
+        setError('Unable to load project data. Showing defaults.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProjects();
+  }, []);
+
+  const projectList = projects.length ? projects : PROJECTS;
+
+  // Dynamically derive categories from the data
+  const categories = useMemo(() => {
+    const uniqueCategories = Array.from(new Set(projectList.map(p => p.category)));
+    return ['All', ...uniqueCategories];
+  }, [projectList]);
+
+  // Derive filtered projects
+  const filteredProjects = useMemo(() => {
+    return activeCategory === 'All'
+      ? projectList
+      : projectList.filter(p => p.category === activeCategory);
+  }, [activeCategory, projectList]);
+
+  if (isLoading) {
+    return (
+      <section className="py-24 bg-white dark:bg-black flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-zinc-500 animate-pulse font-mono text-sm">Initializing system architectures...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="projects" className="py-24 bg-white dark:bg-black transition-colors duration-500">
@@ -21,9 +70,20 @@ const Projects: React.FC = () => {
             <div className="h-1 w-20 bg-indigo-600 dark:bg-indigo-400 rounded-full"></div>
           </div>
           <p className="max-w-md text-zinc-500 dark:text-zinc-400 text-sm">
-            Scalable, high-throughput systems designed for performance.
+            Scalable, high-throughput systems designed for performance and reliability.
           </p>
         </div>
+
+        {error && (
+            <div className="mb-8 p-4 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/20 rounded-md">
+                <p className="text-sm text-red-600 dark:text-red-400 flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    {error}
+                </p>
+            </div>
+        )}
 
         {/* Filter Buttons */}
         <div className="flex space-x-2 mb-12 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-zinc-300 dark:scrollbar-thumb-zinc-700">
@@ -46,7 +106,7 @@ const Projects: React.FC = () => {
           {filteredProjects.map((project, idx) => (
             <div 
               key={`${project.title}-${idx}`} 
-              className="group relative flex flex-col bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden hover:border-indigo-500/50 dark:hover:border-indigo-500/50 transition-colors duration-500"
+              className="group relative flex flex-col bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden transition-all duration-500 hover:border-indigo-500/30 dark:hover:border-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/5"
             >
               {/* Window Header Style */}
               <div className="h-9 bg-zinc-100 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center px-4 space-x-2 justify-between">
@@ -72,9 +132,19 @@ const Projects: React.FC = () => {
                     <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       {project.title}
                     </h3>
-                    <svg className="w-5 h-5 text-zinc-400 group-hover:text-indigo-500 transform group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
+                    {project.link && (
+                      <a 
+                        href={project.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="p-1 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-full transition-colors group/link"
+                        title="View Project"
+                      >
+                        <svg className="w-5 h-5 text-zinc-400 group-hover/link:text-indigo-500 transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    )}
                 </div>
                 
                 <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-8 flex-1">
