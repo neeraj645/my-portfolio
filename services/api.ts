@@ -16,7 +16,7 @@ const fetchData = async <T>(path: string): Promise<T> => {
   return result.data;
 };
 
-export const fetchHomePages = async (): Promise<HomepageApi[]> => fetchData<HomepageApi[]>('/homepages');
+export const fetchHomePages = async (): Promise<HomepageApi[]> => fetchData<HomepageApi[]>('/homepage');
 export const fetchExperiences = async (): Promise<ExperienceApi[]> => fetchData<ExperienceApi[]>('/experiences');
 export const fetchTechStacks = async (): Promise<TechStackApi[]> => fetchData<TechStackApi[]>('/techstacks');
 export const fetchProjects = async (): Promise<ProjectApi[]> => fetchData<ProjectApi[]>('/projects');
