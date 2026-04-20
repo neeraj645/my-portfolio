@@ -1,7 +1,5 @@
 <div align="center">
 
-<img width="1200" height="475" alt="Neeraj Rajput Portfolio Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-
 # 🚀 Neeraj Rajput Portfolio
 
 ### Backend Engineer | Full Stack Developer | Problem Solver
@@ -41,3 +39,7 @@ Backend    : Node.js / Express.js
 Database   : MongoDB / MySQL
 Tools      : Git / GitHub / Postman / VS Code
 Deployment : Vercel / AWS / Render
+```
+
+### Create with the Help of gemini AI Studio ❤️
+
