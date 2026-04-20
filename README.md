@@ -1,20 +1,43 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+
+<img width="1200" height="475" alt="Neeraj Rajput Portfolio Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+
+# 🚀 Neeraj Rajput Portfolio
+
+### Backend Engineer | Full Stack Developer | Problem Solver
+
+<p>
+Showcasing my projects, technical skills, experience, and development journey.
+Built with modern technologies for performance, scalability, and clean design.
+</p>
+
+<p>
+<a href="[https://your-portfolio-link.com](https://neeraj-rajput.vercel.app/)">🌐 Live Demo</a> •
+</p>
+
 </div>
 
-# Run and deploy your AI Studio app
+---
 
-This contains everything you need to run your app locally.
+# 📌 About This Portfolio
 
-View your app in AI Studio: https://ai.studio/apps/drive/1wV1uYoNIzG_UhTsLfqCiOzUNKv42Mlhn
+This portfolio represents my work as a **Full Stack Developer** with a strong focus on backend systems, scalable APIs, clean UI, and real-world projects.
 
-## Run Locally
+It includes:
 
-**Prerequisites:**  Node.js
+- 💼 Featured Projects  
+- 🛠 Technical Skills  
+- 📈 Experience & Achievements  
+- 📱 Responsive Design  
+- 📬 Contact Information  
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+# ⚙️ Tech Stack
+
+```bash
+Frontend   : React.js / Next.js / Tailwind CSS
+Backend    : Node.js / Express.js
+Database   : MongoDB / MySQL
+Tools      : Git / GitHub / Postman / VS Code
+Deployment : Vercel / AWS / Render
