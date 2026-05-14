@@ -26,7 +26,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme, activePage, onNavig
           <div className="flex-shrink-0 cursor-pointer" onClick={() => onNavigate('home')}>
             <div className="text-xl font-bold tracking-tighter flex items-center space-x-2 group">
               <span className="text-indigo-600 dark:text-indigo-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors font-mono">&lt;</span>
-              <span className="text-zinc-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">Neeraj.Dev</span>
+              <span className="text-zinc-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">Dev.Backend</span>
               <span className="text-indigo-600 dark:text-indigo-400 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors font-mono">/&gt;</span>
             </div>
           </div>

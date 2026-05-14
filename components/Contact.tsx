@@ -5,36 +5,24 @@ import { fetchContacts } from '../services/api';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+<<<<<<< HEAD
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [contactLinks, setContactLinks] = useState<ContactApi | null>(null);
   const [loadError, setLoadError] = useState<string>('');
+=======
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success'>('idle');
+>>>>>>> parent of 076e4f2 (dynamic form)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
-    setErrorMessage('');
-
-    try {
-      const response = await fetch('https://my-portfolio-backend-8jly.onrender.com/api/forms', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        const message = errorData?.message || 'Submission failed. Please try again.';
-        throw new Error(message);
-      }
-
+    // Simulate API call
+    setTimeout(() => {
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
-      window.setTimeout(() => setStatus('idle'), 4000);
-    } catch (error) {
-      setStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Submission failed. Please try again.');
-    }
+      setTimeout(() => setStatus('idle'), 3000);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -165,12 +153,6 @@ const Contact: React.FC = () => {
                   <span>Send Message</span>
                 )}
               </button>
-              {status === 'success' && (
-                <p className="mt-4 text-sm text-green-600 dark:text-green-400">Your message has been sent successfully.</p>
-              )}
-              {status === 'error' && (
-                <p className="mt-4 text-sm text-red-600 dark:text-red-400">{errorMessage}</p>
-              )}
             </form>
           </div>
         </div>

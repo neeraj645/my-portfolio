@@ -91,8 +91,13 @@ const HireMe: React.FC<HireMeProps> = ({ onNavigate }) => {
                {profile.experience}
            </div>
            <div>
+<<<<<<< HEAD
                <span className="block text-zinc-500 dark:text-zinc-400 mb-1">Availability</span>
                {profile.availibility}
+=======
+               <span className="block text-zinc-400 mb-1">Availability</span>
+               Immediate
+>>>>>>> parent of 076e4f2 (dynamic form)
            </div>
            <div>
                <span className="block text-zinc-500 dark:text-zinc-400 mb-1">Location</span>
