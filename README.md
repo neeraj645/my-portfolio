@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div align="center">
 
 # 🚀 Neeraj Rajput Portfolio
@@ -43,3 +44,6 @@ Deployment : Vercel / AWS / Render
 
 ### Create with the Help of gemini AI Studio ❤️
 
+=======
+# my-portfolio
+>>>>>>> parent of b8d8828 (first commit)
