@@ -1,9 +1,18 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { ContactApi } from '../types';
+import { fetchContacts } from '../services/api';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+<<<<<<< HEAD
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [contactLinks, setContactLinks] = useState<ContactApi | null>(null);
+  const [loadError, setLoadError] = useState<string>('');
+=======
   const [status, setStatus] = useState<'idle' | 'sending' | 'success'>('idle');
+>>>>>>> parent of 076e4f2 (dynamic form)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,6 +25,30 @@ const Contact: React.FC = () => {
     }, 1000);
   };
 
+  useEffect(() => {
+    const loadContacts = async () => {
+      try {
+        const data = await fetchContacts();
+        if (data.length > 0) {
+          setContactLinks(data[0]);
+        }
+      } catch (err) {
+        console.error('Contacts API error:', err);
+        setLoadError('Unable to load contact links. Showing defaults.');
+      }
+    };
+
+    loadContacts();
+  }, []);
+
+  const activeLinks = contactLinks ?? {
+    _id: 'default',
+    email: 'neerajrajput.work@gmail.com',
+    github: 'https://github.com/neeraj645',
+    linkedin: 'https://linkedin.com/in/neerajrajput1',
+    twitter: 'https://x.com/neeraj645',
+  };
+
   return (
     <section id="contact" className="py-24 bg-zinc-50 dark:bg-black">
       <div className="max-w-4xl mx-auto px-4">
@@ -23,16 +56,36 @@ const Contact: React.FC = () => {
           <div>
             <h2 className="text-3xl font-bold mb-4 tracking-tight">Initiate Handshake</h2>
             <div className="h-1 w-20 bg-indigo-600 dark:bg-indigo-400 rounded-full mb-8"></div>
-            {/* <p className="text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
+            <p className="text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
               Open for opportunities in backend engineering, distributed systems, and DevOps. Let's discuss system design, performance bottlenecks, or just coffee.
-            </p> */}
-            
+            </p>
+            {loadError && <p className="text-sm text-red-600 dark:text-red-400 mb-6">{loadError}</p>}
             <div className="space-y-6">
               {[
-                { label: 'Email', value: 'neerajrajput.work@gmail.com', href: 'mailto:neerajrajput.work@gmail.com', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
-                { label: 'GitHub', value: 'github.com/neeraj645', href: 'https://github.com/neeraj645', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
-                { label: 'LinkedIn', value: 'linkedin.com/in/neerajrajput1', href: 'https://linkedin.com/in/neerajrajput1', icon: 'M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z' },
-                { label: 'X (Twitter)', value: 'x.com/neeraj645', href: 'https://x.com/neeraj645', icon: 'M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z' }
+                {
+                  label: 'Email',
+                  value: activeLinks.email,
+                  href: `mailto:${activeLinks.email}`,
+                  icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+                },
+                {
+                  label: 'GitHub',
+                  value: activeLinks.github.replace(/^https?:\/\//, ''),
+                  href: activeLinks.github,
+                  icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
+                },
+                {
+                  label: 'LinkedIn',
+                  value: activeLinks.linkedin.replace(/^https?:\/\//, ''),
+                  href: activeLinks.linkedin,
+                  icon: 'M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z',
+                },
+                {
+                  label: 'X (Twitter)',
+                  value: activeLinks.twitter.replace(/^https?:\/\//, ''),
+                  href: activeLinks.twitter,
+                  icon: 'M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z',
+                },
               ].map((link) => (
                 <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="flex items-center space-x-4 group">
                   <div className="p-3 rounded-md bg-white dark:bg-zinc-900 text-indigo-600 dark:text-indigo-400 shadow-sm group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
